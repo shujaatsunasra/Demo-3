@@ -1,132 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clasicraft | Artisanal Wooden Furniture</title>
+    <!-- Enhanced meta tags -->
+    <meta name="theme-color" content="#9C7C5D">
+    <!-- Stylesheets - Order matters -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Advanced animation libraries -->
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css">
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css">
     <link rel="stylesheet" href="parallax.css">
-    <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.6.1/dist/simpleParallax.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <link rel="stylesheet" href="mobile.css">
+    <!-- Preload key scripts for performance -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.0/dist/lenis.min.js" as="script">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" as="script">
     <style>
-        /* Base Styles */
-        :root {
-            --primary-color: #9c7c5d;
-            --secondary-color: #f7f3ef;
-            --text-color: #333333;
-            --light-text: #777777;
-            --off-white: #faf9f8;
-            --pure-white: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Base Layout Styles */
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Inter', 'Montserrat', sans-serif;
+            letter-spacing: -0.02em;
             color: var(--text-color);
             background-color: var(--pure-white);
             font-weight: 300;
             line-height: 1.6;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
         }
 
+        /* Updated Color Scheme */
+        :root {
+            --primary-color: #9C7C5D;  /* Warm walnut tone */
+            --secondary-color: #F5F1ED;  /* Organic linen */
+            --accent-color: #B8A28A;  /* Weathered stone */
+            --text-color: #3A332E;     /* Dark charcoal */
+            --light-text: #7A716B;     /* Soft grey */
+            --off-white: #faf9f8;
+            --pure-white: #FFFFFF;
+            --sandstone: #D4C8B8;      /* New earthy tone */
+            --clay: #BF9780;          /* Terracotta accent */
+            
+            /* Animation easing curves */
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Fixed Container Classes */
+        .container {
+            width: 92%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Section Structure */
+        .section {
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Typography Fixes */
         h1, h2, h3, h4, h5 {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 500;
+            letter-spacing: -0.03em;
             line-height: 1.2;
+            margin-top: 0;
         }
 
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            background: #f5f3f0;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        img.loaded {
-            opacity: 1;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 4vw;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 18px 36px;
-            background: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 400;
-        }
-
-        .btn:hover {
-            background: var(--primary-color);
-            color: var(--pure-white);
-        }
-
-        .section {
-            padding: 100px 0;
-        }
-
-        .section-title {
-            font-size: 42px;
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-subtitle {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--light-text);
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 400;
-        }
-
-        /* Header */
+        /* Enhanced Header Styles */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 1000;
-            padding: 25px 0;
-            background-color: transparent;
-            transition: all 0.4s ease;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: linear-gradient(to right, rgba(255,255,255,0.92), rgba(248,246,242,0.92));
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 15px 0;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.025);
         }
 
         .header.scrolled {
-            padding: 15px 0;
-            background-color: var(--pure-white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 12px 0;
+            background: linear-gradient(to right, rgba(255,255,255,0.96), rgba(248,246,242,0.96));
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
         }
 
         .header-inner {
@@ -136,592 +103,293 @@
         }
 
         .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 28px;
-            color: var(--pure-white);
-            transition: color 0.3s ease;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            position: relative;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
         }
 
-        .header.scrolled .logo {
-            color: var(--text-color);
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -15px;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover::before {
+            opacity: 1;
+            left: -10px;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 40px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 0 20px;
         }
 
         .nav-link {
-            color: var(--pure-white);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 400;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 5px 0;
+            transition: all 0.3s;
+            overflow: hidden;
         }
 
-        .header.scrolled .nav-link {
-            color: var(--text-color);
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s var(--ease-out-expo);
         }
 
         .nav-link:hover {
             color: var(--primary-color);
         }
 
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
         .cart-icon, .menu-toggle {
-            color: var(--pure-white);
-            font-size: 22px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .cart-icon:hover, .menu-toggle:hover {
+            transform: scale(1.1);
+            color: var(--primary-color);
+        }
+
+        .cart-icon::after {
+            content: '0';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 16px;
+            height: 16px;
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.7rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Fixed Mobile Menu */
+        .menu-toggle {
+            display: none;
             cursor: pointer;
         }
 
-        .header.scrolled .cart-icon, 
-        .header.scrolled .menu-toggle {
-            color: var(--text-color);
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
         }
 
-        /* Hero Section */
+        /* Enhanced Hero Section Styles */
         .hero {
-            position: relative;
             height: 100vh;
-            min-height: 600px;
-            background: linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.1)), 
-                        url('https://images.unsplash.com/photo-1556185781-a47769abb7ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            position: relative;
+            overflow: hidden;
             display: flex;
             align-items: center;
-            color: var(--pure-white);
+            margin-top: 0;
+            padding-top: 0;
         }
 
         .hero-video-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            transform: scale(1.05);
+            top: 0;
+            left: 0;
+        }
+
+        .wood-grain-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            z-index: -1;
+            background: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            opacity: 0.2;
+            z-index: 1;
+            mix-blend-mode: overlay;
+        }
+
+        .hero-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.85) contrast(1.1);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(58, 51, 46, 0.5), transparent 70%),
+                         linear-gradient(to bottom, transparent 70%, rgba(58, 51, 46, 0.6));
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            padding: 0 4vw;
-            max-width: 800px;
+            color: var(--pure-white);
+            max-width: 600px;
+            padding-left: 20px;
+            border-left: 3px solid var(--primary-color);
         }
 
         .hero-title {
-            font-size: 72px;
-            line-height: 1.1;
-            margin-bottom: 24px;
-        }
-
-        .hero-subtitle {
-            font-size: 18px;
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-
-        /* Featured Collection */
-        .featured {
-            background-color: var(--off-white);
-        }
-
-        .featured-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .featured-item {
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
             position: relative;
-            overflow: hidden;
-            cursor: pointer;
         }
 
-        .featured-img {
-            width: 100%;
-            height: 50vh;
-            min-height: 400px;
-            aspect-ratio: 3/4;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .featured-item:hover .featured-img {
-            transform: scale(1.05);
-        }
-
-        .featured-overlay {
+        .hero-title::before {
+            content: "";
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(100%);
-            transition: transform 0.4s ease;
+            top: -5%;
+            left: -25px;
+            width: 60px;
+            height: 60px;
+            border-top: 2px solid var(--primary-color);
+            border-left: 2px solid var(--primary-color);
+            opacity: 0.8;
         }
 
-        .featured-item:hover .featured-overlay {
-            transform: translateY(0);
-        }
-
-        .featured-title {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .featured-price {
-            color: var(--primary-color);
-            font-weight: 500;
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-
-        /* About Section */
-        .about {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .about-img {
-            height: 600px;
-            width: 100%;
-            object-fit: cover;
-            border-radius: 4px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .about-content {
-            padding-right: 40px;
-        }
-
-        .about-title {
-            font-size: 42px;
-            margin-bottom: 30px;
-        }
-
-        .about-text {
-            margin-bottom: 30px;
-            line-height: 1.8;
-            color: var(--light-text);
-        }
-
-        /* Product Showcase */
-        .showcase {
-            text-align: center;
-            background-color: var(--pure-white);
-        }
-
-        .showcase-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 3rem;
-        }
-
-        .product-card {
-            text-align: left;
-        }
-
-        .product-img {
-            width: 100%;
-            height: 400px;
-            aspect-ratio: 4/3;
-            object-fit: cover;
-            border-radius: 4px;
-            transition: transform 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .product-title {
-            font-size: 22px;
-            margin-bottom: 8px;
-        }
-
-        .product-price {
-            color: var(--primary-color);
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-
-        .product-desc {
-            color: var(--light-text);
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        /* Testimonials */
-        .testimonials {
-            background-color: var(--secondary-color);
-            text-align: center;
-        }
-
-        .testimonial-quote {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 28px;
-            margin: 0 auto 30px;
-        }
-
-        .testimonial-author {
-            font-weight: 400;
-            color: var(--primary-color);
-            font-size: 14px;
-        }
-
-        /* Newsletter */
-        .newsletter {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .newsletter-title {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .newsletter-subtitle {
-            color: var(--light-text);
-            margin-bottom: 30px;
-        }
-
-        .newsletter-form {
-            display: flex;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .newsletter-input {
-            flex: 1;
-            padding: 15px;
-            border: 1px solid #ddd;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .newsletter-btn {
-            background-color: var(--text-color);
-            color: var(--pure-white);
-            border: none;
-            padding: 0 30px;
-            cursor: pointer;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-size: 14px;
-            font-weight: 400;
-        }
-
-        .newsletter-privacy {
-            font-size: 12px;
-            color: var(--light-text);
-        }
-
-        /* Footer */
-        .footer {
-            background-color: var(--off-white);
-            padding: 80px 0 40px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-        }
-
-        .footer-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        .footer-about {
-            color: var(--light-text);
-            margin-bottom: 20px;
-            max-width: 320px;
-        }
-
-        .footer-heading {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-link {
-            margin-bottom: 10px;
-            color: var(--light-text);
-            font-size: 14px;
-        }
-
-        .footer-link:hover {
-            color: var(--primary-color);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 40px;
-            border-top: 1px solid #eee;
-            color: var(--light-text);
-            font-size: 14px;
-        }
-
-        /* Mobile Styles */
-        .menu-toggle {
-            display: none;
-        }
-
-        @media (max-width: 992px) {
-            .container {
-                padding: 0 20px;
-            }
-
-            .section {
-                padding: 70px 0;
-            }
-
-            .section-title {
-                font-size: 36px;
-                margin-bottom: 40px;
-            }
-
-            .hero-title {
-                font-size: 58px;
-            }
-
-            .featured-grid, .showcase-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .about {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .section {
-                padding: 50px 0;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .hero-title {
-                font-size: 12vw;
-            }
-
-            .hero-subtitle {
-                font-size: 16px;
-            }
-
-            .featured-grid, .showcase-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .featured-img {
-                height: 400px;
-            }
-
-            .about-img {
-                height: 400px;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-        }
-
-        /* Comparison Slider Fix */
-        .comparison-slider {
-            position: relative;
-            width: 100%;
-            height: 600px;
-            margin: 8rem 0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .comparison-before, .comparison-after {
+        .hero-title::after {
+            content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+            bottom: -15%;
+            right: 30%;
+            width: 60px;
+            height: 60px;
+            border-bottom: 2px solid var(--clay);
+            border-right: 2px solid var(--clay);
+            opacity: 0.8;
         }
 
-        .comparison-after {
-            width: 50%; /* Initial width */
-        }
-
-        .comparison-before img, .comparison-after img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .comparison-handle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: col-resize;
-            z-index: 10;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
-
-        /* Product showcase fixes */
-        .product-image-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-
-        .product-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.2);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .product-card:hover .product-overlay {
-            opacity: 1;
-        }
-
-        .product-actions {
-            display: flex;
-            gap: 20px;
-        }
-
-        .product-action-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        /* 3D Product Viewer fix */
-        .product-3d-container {
-            position: relative;
-            margin: 8rem 0;
-            height: 500px;
-        }
-
-        /* Fix for staggered grid */
-        .staggered-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        /* Fix for featured items overflow */
-        .featured-item {
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        /* Button content fixes */
-        .btn-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Fix for scroll indicator */
         .scroll-indicator {
             position: absolute;
-            bottom: 30px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: white;
-            cursor: pointer;
+            z-index: 5;
+            color: var(--pure-white);
         }
 
         .scroll-indicator-text {
-            margin-bottom: 10px;
-            font-size: 12px;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 2px;
+            margin-bottom: 10px;
+            opacity: 0.8;
         }
 
         .scroll-indicator-arrow {
-            width: 20px;
-            height: 20px;
-            border-right: 2px solid white;
-            border-bottom: 2px solid white;
-            transform: rotate(45deg);
-            animation: bounce 2s infinite;
+            width: 30px;
+            height: 50px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 15px;
+            position: relative;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: rotate(45deg) translateY(0);
+        .scroll-indicator-arrow::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: scrollDown 2s infinite;
+        }
+
+        @keyframes scrollDown {
+            0% {
+                top: 8px;
+                opacity: 1;
             }
-            40% {
-                transform: rotate(45deg) translateY(-10px);
+            80% {
+                opacity: 0.5;
             }
-            60% {
-                transform: rotate(45deg) translateY(-5px);
+            100% {
+                top: 32px;
+                opacity: 0;
             }
         }
     </style>
 </head>
-<body>
+<body data-scroll-container>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress"></div>
+
+    <!-- WebGL Canvas Container -->
+    <div class="canvas-container">
+        <canvas id="particles-canvas"></canvas>
+    </div>
+    
     <!-- Header -->
-    <header class="header">
+    <header class="header" data-scroll-sticky>
         <div class="container">
             <div class="header-inner">
                 <a href="#" class="logo">Clasicraft</a>
                 <ul class="nav-links">
-                    <li><a href="#shop" class="nav-link">Shop</a></li>
-                    <li><a href="#about" class="nav-link">Our Story</a></li>
-                    <li><a href="#journal" class="nav-link">Journal</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="#shop" class="nav-link" data-scroll-to>Shop</a></li>
+                    <li><a href="#contact" class="nav-link" data-scroll-to>Contact</a></li>
                 </ul>
                 <div class="header-right">
                     <span class="cart-icon">
@@ -731,7 +399,7 @@
                             <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </span>
-                    <span class="menu-toggle">
+                    <span class="menu-toggle" id="menuToggle">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 12H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M3 6H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -742,384 +410,863 @@
             </div>
         </div>
     </header>
-
-    <!-- Mobile Menu -->
-    <div class="overlay"></div>
-    <div class="mobile-menu">
-        <span class="close-menu">&times;</span>
+    
+    <!-- Fixed SVG Definitions -->
+    <svg style="display:none">
+        <defs>
+            <path id="customWavePath" d="M0,100 C150,30 350,30 500,100 C650,170 850,170 1000,100 L1000,200 L0,200 Z"/>
+            <path id="wavePath" d="M0,50 C100,0 150,100 200,50 L200,100 L0,100 Z" />
+        </defs>
+    </svg>
+    
+    <!-- Mobile Menu with fixed toggle functionality -->
+    <div class="overlay" id="menuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <span class="close-menu" id="closeMenu">&times;</span>
         <ul class="mobile-links">
-            <li class="mobile-link"><a href="#shop">Shop</a></li>
-            <li class="mobile-link"><a href="#about">Our Story</a></li>
-            <li class="mobile-link"><a href="#journal">Journal</a></li>
-            <li class="mobile-link"><a href="#contact">Contact</a></li>
+            <li class="mobile-link"><a href="#shop" data-scroll-to>Shop</a></li>
+            <li class="mobile-link"><a href="#contact" data-scroll-to>Contact</a></li>
         </ul>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero parallax-container">
-        <div class="parallax-bg"></div>
+    <!-- Enhanced Hero Section with Parallax Layers -->
+    <section class="hero parallax-container" data-scroll-section>
         <div class="hero-video-container">
-            <!-- Video will be added by JavaScript -->
+            <div class="wood-grain-overlay"></div>
+            <video autoplay muted loop playsinline class="hero-video" poster="https://images.unsplash.com/photo-1556185781-a47769abb7ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80">
+                <source src="https://cdn.coverr.co/videos/coverr-craftsman-carving-wood-3288/1080p.mp4" type="video/mp4">
+                <img src="https://images.unsplash.com/photo-1556185781-a47769abb7ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="Wooden craftsmanship" class="img-parallax">
+            </video>
         </div>
         <div class="container">
-            <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
-                <h1 class="hero-title highlight-text">Artisanal Wooden Masterpieces</h1>
-                <p class="hero-subtitle char-split">Handcrafted furniture that combines timeless design with exceptional quality for your modern home.</p>
-                <a href="#shop" class="btn magnetic-btn"><span class="btn-content">Explore Collection</span></a>
+            <div class="hero-content" data-scroll data-scroll-speed="2">
+                <h1 class="hero-title split-text">Artisanal<br>Woodcraft<br>Redefined</h1>
+                <a href="#shop" class="btn magnetic-btn" data-scroll-to><span class="btn-content">Explore Collection</span></a>
             </div>
         </div>
-        <div class="scroll-indicator">
+        <div class="scroll-indicator" data-scroll data-scroll-speed="-2">
             <span class="scroll-indicator-text">Scroll Down</span>
             <span class="scroll-indicator-arrow"></span>
         </div>
     </section>
 
-    <!-- Featured Collection -->
-    <section class="section featured" id="shop">
+    <!-- Fixed Section Divider -->
+    <div class="section-divider section-divider-curve"></div>
+    
+    <!-- Featured Collection with Enhanced Material Cards -->
+    <section class="section featured" id="shop" data-scroll-section>
         <div class="container">
-            <p class="section-subtitle highlight-text" data-aos="fade-up">Featured Products</p>
-            <h2 class="section-title highlight-text" data-aos="fade-up" data-aos-delay="100">Best Sellers</h2>
-            <div class="featured-grid staggered-grid">
-                <div class="featured-item hover-parallax-container" data-aos="fade-up" data-aos-delay="200">
-                    <div class="parallax-wrapper aspect-ratio-box">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Dining Table" class="featured-img img-parallax hover-parallax-item">
+            <p class="section-subtitle highlight-text" data-scroll>Featured Products</p>
+            <h2 class="section-title highlight-text" data-scroll>Best Sellers</h2>
+            
+            <div class="material-selectors" data-scroll>
+                <div class="material-option" data-material="walnut">
+                    <div class="material-preview" style="background-color: #9C7C5D;"></div>
+                    <span>Walnut</span>
+                </div>
+                <div class="material-option" data-material="oak">
+                    <div class="material-preview" style="background-color: #D4C8B8;"></div>
+                    <span>Oak</span>
+                </div>
+                <div class="material-option" data-material="maple">
+                    <div class="material-preview" style="background-color: #E5DFD6;"></div>
+                    <span>Maple</span>
+                </div>
+            </div>
+            
+            <div class="staggered-grid">
+                <div class="product-card hover-lift" data-scroll>
+                    <div class="product-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Dining Table" class="product-img">
+                        <div class="product-badge">Handcrafted</div>
+                        <button class="quick-view">Quick View</button>
                     </div>
-                    <div class="featured-overlay">
-                        <h3 class="featured-title">Modern Dining Table</h3>
-                        <p class="featured-price">₹36,999</p>
-                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
+                    <div class="product-info">
+                        <h3 class="product-title split-text">Modern Dining Table</h3>
+                        <p class="product-price">₹36,999</p>
+                        <p class="product-desc">Solid walnut dining table with hand-carved details and organic finish.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
                     </div>
                 </div>
-                <div class="featured-item hover-parallax-container" data-aos="fade-up" data-aos-delay="300">
-                    <div class="parallax-wrapper aspect-ratio-box">
-                        <img src="https://images.unsplash.com/photo-1550226891-ef816aed4a98?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Chair" class="featured-img img-parallax hover-parallax-item">
+                
+                <div class="product-card hover-lift" data-scroll>
+                    <div class="product-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1550226891-ef816aed4a98?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Chair" class="product-img">
+                        <div class="product-badge">New Arrival</div>
+                        <button class="quick-view">Quick View</button>
                     </div>
-                    <div class="featured-overlay">
-                        <h3 class="featured-title">Minimalist Lounge Chair</h3>
-                        <p class="featured-price">₹18,499</p>
-                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
+                    <div class="product-info">
+                        <h3 class="product-title split-text">Minimalist Lounge Chair</h3>
+                        <p class="product-price">₹18,499</p>
+                        <p class="product-desc">Clean lines and honest materials define this versatile wooden chair.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
                     </div>
                 </div>
-                <div class="featured-item hover-parallax-container" data-aos="fade-up" data-aos-delay="400">
-                    <div class="parallax-wrapper aspect-ratio-box">
-                        <img src="https://images.unsplash.com/photo-1581428982868-e410dd047a90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Cabinet" class="featured-img img-parallax hover-parallax-item">
+                
+                <div class="product-card hover-lift" data-scroll>
+                    <div class="product-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1581428982868-e410dd047a90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Cabinet" class="product-img">
+                        <div class="product-badge">Best Seller</div>
+                        <button class="quick-view">Quick View</button>
                     </div>
-                    <div class="featured-overlay">
-                        <h3 class="featured-title">Accent Cabinet</h3>
-                        <p class="featured-price">₹42,999</p>
-                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
+                    <div class="product-info">
+                        <h3 class="product-title split-text">Accent Cabinet</h3>
+                        <p class="product-price">₹42,999</p>
+                        <p class="product-desc">Natural live edge with thoughtful storage solutions for modern living.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Fixed Section Divider -->
+    <div class="section-divider section-divider-curve"></div>
+
+    <!-- New Arrivals - Horizontal Scroll Layout -->
+    <section class="section" data-scroll-section>
+        <div class="container">
+            <div class="category-heading">
+                <p class="section-subtitle highlight-text" data-scroll>Just In</p>
+                <h2 class="section-title highlight-text" data-scroll>New Arrivals</h2>
+            </div>
+
+            <div class="horizontal-scroll">
+                <div class="product-card hover-lift" data-scroll>
+                    <div class="product-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1592078615290-033ee0dfbe78?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Desk" class="product-img">
+                        <div class="product-badge">New</div>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title split-text">Modern Writing Desk</h3>
+                        <p class="product-price">₹24,999</p>
+                        <p class="product-desc">Sleek wooden desk with minimalist drawers and practical storage.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                    </div>
+                </div>
+                
+                <div class="product-card hover-lift" data-scroll>
+                    <div class="product-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Bookshelf" class="product-img">
+                        <div class="product-badge">New</div>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title split-text">Floating Bookshelf</h3>
+                        <p class="product-price">₹16,499</p>
+                        <p class="product-desc">Efficient shelving that creates a floating appearance with hidden brackets.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                    </div>
+                </div>
+                
+                <div class="product-card hover-lift" data-scroll>
+                    <div class="product-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1544457070-4cd773b4d71e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Nightstand" class="product-img">
+                        <div class="product-badge">New</div>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title split-text">Bedside Table</h3>
+                        <p class="product-price">₹12,999</p>
+                        <p class="product-desc">Functional nightstand with drawer and open storage compartment.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                    </div>
+                </div>
+                
+                <div class="product-card hover-lift" data-scroll>
+                    <div class="product-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1593526613712-7b4b8e8794b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Coffee Table" class="product-img">
+                        <div class="product-badge">New</div>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title split-text">Round Coffee Table</h3>
+                        <p class="product-price">₹18,499</p>
+                        <p class="product-desc">Elegant circular design with solid wood and minimalist metal legs.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                    </div>
+                </div>
+                
+                <div class="product-card hover-lift" data-scroll>
+                    <div class="product-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1598300056393-4aac492f4344?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Bench" class="product-img">
+                        <div class="product-badge">New</div>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title split-text">Entryway Bench</h3>
+                        <p class="product-price">₹22,499</p>
+                        <p class="product-desc">Practical seating with under-bench storage for shoes and accessories.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="section" id="about">
+    <!-- Fixed Section Divider -->
+    <div class="section-divider section-divider-curve"></div>
+    
+    <!-- Personalized Recommendations - List View Layout -->
+    <section class="section suggested-products" style="background-color: var(--secondary-color);" data-scroll-section>
         <div class="container">
-            <div class="about">
-                <div class="about-content" data-aos="fade-right">
-                    <p class="section-subtitle">Our Story</p>
-                    <h2 class="about-title">Crafted with passion, designed for living</h2>
-                    <p class="about-text">Clasicraft was born from a deep appreciation of natural materials and traditional craftsmanship. Each piece in our collection is thoughtfully designed and meticulously crafted by skilled artisans using sustainable hardwoods sourced from responsibly managed forests.</p>
-                    <p class="about-text">We believe furniture should be both beautiful and functional, creating pieces that become more meaningful with time and use. Our designs combine traditional joinery techniques with contemporary aesthetics, resulting in heirloom-quality furniture that tells a story.</p>
-                    <a href="#" class="btn">Learn More</a>
+            <div class="category-heading">
+                <p class="section-subtitle highlight-text" data-scroll>For You</p>
+                <h2 class="section-title highlight-text" data-scroll>Suggested Products</h2>
+            </div>
+
+            <div class="list-view">
+                <div class="list-item-card hover-lift" data-scroll>
+                    <div class="list-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1581428982868-e410dd047a90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Shelf" class="product-img">
+                        <div class="list-tag">Trending</div>
+                    </div>
+                    <div class="list-info">
+                        <span class="list-category">Shelving</span>
+                        <h3 class="list-title">Adjustable Bookcase</h3>
+                        <p class="list-price">₹32,999</p>
+                        <p class="product-desc">Modular shelving system with customizable configuration to fit any space. Made from sustainable solid oak with natural grain patterns.</p>
+                        <div class="list-features">
+                            <span class="list-feature">Sustainable</span>
+                            <span class="list-feature">Customizable</span>
+                        </div>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                    </div>
                 </div>
-                <div class="about-image-container" data-aos="fade-left" data-aos-delay="200">
-                    <img src="https://images.unsplash.com/photo-1575286368486-a9bd023a3d1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Craftsman working on wooden furniture" class="about-img img-parallax">
+
+                <div class="list-item-card hover-lift" data-scroll>
+                    <div class="list-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1554295405-abb8fd54f153?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Stool" class="product-img">
+                    </div>
+                    <div class="list-info">
+                        <span class="list-category">Seating</span>
+                        <h3 class="list-title">Artisan Bar Stool</h3>
+                        <p class="list-price">₹9,499</p>
+                        <p class="product-desc">Handcrafted counter-height stool with ergonomic seat design. Perfect for kitchen islands and home bars with artisanal woodwork details.</p>
+                        <div class="list-features">
+                            <span class="list-feature">Ergonomic</span>
+                            <span class="list-feature">Handcrafted</span>
+                        </div>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                    </div>
+                </div>
+
+                <div class="list-item-card hover-lift" data-scroll>
+                    <div class="list-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden TV Stand" class="product-img">
+                    </div>
+                    <div class="list-info">
+                        <span class="list-category">Media</span>
+                        <h3 class="list-title">Media Console</h3>
+                        <p class="list-price">₹47,999</p>
+                        <p class="product-desc">Contemporary entertainment center with cable management system and adjustable shelving. Features dovetail joinery and solid brass hardware.</p>
+                        <div class="list-features">
+                            <span class="list-feature">Cable Management</span>
+                            <span class="list-feature">Adjustable Shelving</span>
+                        </div>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Product Showcase -->
-    <section class="section showcase">
+    <!-- Shop By Category - Tabbed Layout -->
+    <section class="section" data-scroll-section>
         <div class="container">
-            <p class="section-subtitle highlight-text" data-aos="fade-up">Curated Selection</p>
-            <h2 class="section-title highlight-text" data-aos="fade-up" data-aos-delay="100">Discover Our Collection</h2>
-            <div class="showcase-grid">
-                <div class="product-card product-showcase" data-aos="fade-up" data-aos-delay="200">
-                    <div class="aspect-ratio-box">
-                        <div class="depth-card">
-                            <div class="depth-card-inner">
-                                <div class="depth-card-front">
-                                    <img data-src="https://images.unsplash.com/photo-1592078615290-033ee584e267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dining Table" class="product-img">
-                                </div>
-                                <div class="depth-card-back">
-                                    <div class="product-details">
-                                        <h3 class="product-title">Artisan Dining Table</h3>
-                                        <p class="product-price">₹48,999</p>
-                                        <p>Handcrafted with a focus on durability and timeless design</p>
-                                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="category-heading">
+                <p class="section-subtitle highlight-text" data-scroll>Explore</p>
+                <h2 class="section-title highlight-text" data-scroll>Shop By Category</h2>
+            </div>
+
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="dining">Dining Room</button>
+                <button class="tab-button" data-tab="living">Living Room</button>
+                <button class="tab-button" data-tab="bedroom">Bedroom</button>
+                <button class="tab-button" data-tab="office">Home Office</button>
+            </div>
+
+            <div class="tab-content active" id="dining">
+                <div class="category-grid">
+                    <div class="category-card hover-lift">
+                        <div class="category-image img-reveal">
+                            <img src="https://images.unsplash.com/photo-1604578762246-41134e37f9cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dining Table" class="product-img">
+                        </div>
+                        <div class="category-detail">
+                            <h3 class="category-title">Extendable Dining Table</h3>
+                            <p class="category-price">₹52,499</p>
+                            <p class="category-desc">Expandable table for flexible dining arrangements.</p>
+                            <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                        </div>
+                    </div>
+                    <div class="category-card hover-lift">
+                        <div class="category-image img-reveal">
+                            <img src="https://images.unsplash.com/photo-1503602642458-232111445657?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dining Stool" class="product-img">
+                        </div>
+                        <div class="category-detail">
+                            <h3 class="category-title">Dining Stool</h3>
+                            <p class="category-price">₹8,999</p>
+                            <p class="category-desc">Versatile seating option for casual dining spaces.</p>
+                            <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
                         </div>
                     </div>
                 </div>
-                <div class="product-card product-showcase" data-aos="fade-up" data-aos-delay="300">
-                    <div class="aspect-ratio-box">
-                        <div class="depth-card">
-                            <div class="depth-card-inner">
-                                <div class="depth-card-front">
-                                    <img data-src="https://images.unsplash.com/photo-1580480055273-228ff5388ef8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Bench" class="product-img">
-                                </div>
-                                <div class="depth-card-back">
-                                    <div class="product-details">
-                                        <h3 class="product-title">Minimalist Bench</h3>
-                                        <p class="product-price">₹16,499</p>
-                                        <p>Clean lines and honest materials define this versatile wooden bench</p>
-                                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
-                                    </div>
-                                </div>
-                            </div>
+            </div>
+
+            <div class="tab-content" id="living">
+                <div class="category-grid">
+                    <div class="category-card hover-lift">
+                        <div class="category-image img-reveal">
+                            <img src="https://images.unsplash.com/photo-1592078615290-033ee0dfbe78?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Coffee Table" class="product-img">
+                        </div>
+                        <div class="category-detail">
+                            <h3 class="category-title">Rectangular Coffee Table</h3>
+                            <p class="category-price">₹26,999</p>
+                            <p class="category-desc">Statement centerpiece for your living space.</p>
+                            <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
                         </div>
                     </div>
-                </div>
-                <div class="product-card product-showcase" data-aos="fade-up" data-aos-delay="400">
-                    <div class="aspect-ratio-box">
-                        <div class="depth-card">
-                            <div class="depth-card-inner">
-                                <div class="depth-card-front">
-                                    <img data-src="https://images.unsplash.com/photo-1560448204-444f743ef6e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Coffee Table" class="product-img">
-                                </div>
-                                <div class="depth-card-back">
-                                    <div class="product-details">
-                                        <h3 class="product-title">Live Edge Coffee Table</h3>
-                                        <p class="product-price">₹32,999</p>
-                                        <p>Natural live edge slab showcasing the wood's unique character and grain</p>
-                                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="category-card hover-lift">
+                        <div class="category-image img-reveal">
+                            <img src="https://images.unsplash.com/photo-1566647387313-9fda80664848?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Side Table" class="product-img">
+                        </div>
+                        <div class="category-detail">
+                            <h3 class="category-title">End Table</h3>
+                            <p class="category-price">₹14,499</p>
+                            <p class="category-desc">Perfect companion piece for sofas and armchairs.</p>
+                            <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Testimonials -->
-    <section class="section testimonials">
-        <div class="container">
-            <p class="section-subtitle" data-aos="fade-up">What Our Clients Say</p>
-            <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Testimonials</h2>
-            <div data-aos="fade-up" data-aos-delay="200">
-                <p class="testimonial-quote">"The craftsmanship of my dining table is exceptional. Every detail shows care and attention. It's not just a piece of furniture; it's the heart of our home where we gather and create memories."</p>
-                <p class="testimonial-author">— Priya Sharma, Bangalore</p>
+            <div class="tab-content" id="bedroom">
+                <!-- Bedroom category products -->
+                <div class="category-grid">
+                    <div class="category-card hover-lift">
+                        <div class="category-image img-reveal">
+                            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bed Frame" class="product-img">
+                        </div>
+                        <div class="category-detail">
+                            <h3 class="category-title">Platform Bed Frame</h3>
+                            <p class="category-price">₹62,999</p>
+                            <p class="category-desc">Minimalist design with under-bed storage options.</p>
+                            <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                        </div>
+                    </div>
+                    <div class="category-card hover-lift">
+                        <div class="category-image img-reveal">
+                            <img src="https://images.unsplash.com/photo-1551298370-9d3d53740c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dresser" class="product-img">
+                        </div>
+                        <div class="category-detail">
+                            <h3 class="category-title">Six-Drawer Dresser</h3>
+                            <p class="category-price">₹48,999</p>
+                            <p class="category-desc">Spacious storage with smooth-gliding drawers.</p>
+                            <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Newsletter -->
-    <section class="section">
-        <div class="container">
-            <div class="newsletter" data-aos="fade-up">
-                <p class="section-subtitle">Stay Connected</p>
-                <h2 class="newsletter-title">Join Our Community</h2>
-                <p class="newsletter-subtitle">Subscribe to receive updates on new collections, artisan stories, and exclusive offers.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email address" class="newsletter-input" required>
-                    <button type="submit" class="newsletter-btn">Subscribe</button>
-                </form>
-                <p class="newsletter-privacy">By subscribing, you agree to our Privacy Policy. You can unsubscribe at any time.</p>
+            <div class="tab-content" id="office">
+                <!-- Office category products -->
+                <div class="category-grid">
+                    <div class="category-card hover-lift">
+                        <div class="category-image img-reveal">
+                            <img src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Desk" class="product-img">
+                        </div>
+                        <div class="category-detail">
+                            <h3 class="category-title">Executive Desk</h3>
+                            <p class="category-price">₹58,999</p>
+                            <p class="category-desc">Professional workspace with cable management.</p>
+                            <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                        </div>
+                    </div>
+                    <div class="category-card hover-lift">
+                        <div class="category-image img-reveal">
+                            <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bookshelf" class="product-img">
+                        </div>
+                        <div class="category-detail">
+                            <h3 class="category-title">Office Bookshelf</h3>
+                            <p class="category-price">₹36,999</p>
+                            <p class="category-desc">Organized storage for books and office supplies.</p>
+                            <a href="#" class="btn magnetic-btn"><span class="btn-content">Shop Now</span></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" data-scroll-section>
         <div class="container">
             <div class="footer-grid">
-                <div>
+                <div class="footer-col footer-brand">
                     <h3 class="footer-logo">Clasicraft</h3>
-                    <p class="footer-about">Handcrafted wooden furniture that combines artisanal techniques with timeless design for the modern home.</p>
+                    <p class="footer-tagline">Artisanal Wooden Furniture Handcrafted with Care and Precision</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23 3.00005C22.0424 3.67552 20.9821 4.19216 19.86 4.53005C19.2577 3.83756 18.4573 3.34674 17.567 3.12397C16.6767 2.90121 15.7395 2.95724 14.8821 3.2845C14.0247 3.61176 13.2884 4.19445 12.773 4.95376C12.2575 5.71308 11.9877 6.61238 12 7.53005V8.53005C10.2426 8.57561 8.50127 8.18586 6.93101 7.39549C5.36074 6.60513 4.01032 5.43868 3 4.00005C3 4.00005 -1 13 8 17C5.94053 18.398 3.48716 19.099 1 19C10 24 21 19 21 7.50005C20.9991 7.2215 20.9723 6.94364 20.92 6.67005C21.9406 5.66354 22.6608 4.39276 23 3.00005Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg> 
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16 11.37C16.1234 12.2022 15.9813 13.0522 15.5938 13.799C15.2063 14.5458 14.5931 15.1514 13.8416 15.5297C13.0901 15.9079 12.2384 16.0396 11.4078 15.9059C10.5771 15.7723 9.80976 15.3801 9.21484 14.7852C8.61992 14.1902 8.22773 13.4229 8.09407 12.5922C7.9604 11.7615 8.09207 10.9099 8.47033 10.1584C8.84859 9.40685 9.45419 8.79374 10.201 8.40624C10.9478 8.01874 11.7978 7.87658 12.63 8C13.4789 8.12588 14.2649 8.52146 14.8717 9.1283C15.4785 9.73515 15.8741 10.5211 16 11.37Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17.5 6.5H17.51" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <div>
+                
+                <div class="footer-col">
                     <h4 class="footer-heading">Shop</h4>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="#">All Products</a></li>
-                        <li class="footer-link"><a href="#">Dining</a></li>
-                        <li class="footer-link"><a href="#">Living</a></li>
-                        <li class="footer-link"><a href="#">Bedroom</a></li>
-                        <li class="footer-link"><a href="#">Accessories</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Best Sellers</a></li>
+                        <li><a href="#">Collections</a></li>
+                        <li><a href="#">Sale</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="footer-heading">About</h4>
+                
+                <div class="footer-col">
+                    <h4 class="footer-heading">Company</h4>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="#">Our Story</a></li>
-                        <li class="footer-link"><a href="#">Craftsmanship</a></li>
-                        <li class="footer-link"><a href="#">Sustainability</a></li>
-                        <li class="footer-link"><a href="#">Journal</a></li>
-                        <li class="footer-link"><a href="#">Press</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Craftsmenship</a></li>
+                        <li><a href="#">Careers</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="footer-heading">Help</h4>
+                
+                <div class="footer-col">
+                    <h4 class="footer-heading">Support</h4>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="#">Contact Us</a></li>
-                        <li class="footer-link"><a href="#">Shipping & Returns</a></li>
-                        <li class="footer-link"><a href="#">FAQ</a></li>
-                        <li class="footer-link"><a href="#">Care Guide</a></li>
-                        <li class="footer-link"><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Contact Us</a></li>
                     </ul>
+                </div>
+                
+                <div class="footer-col newsletter">
+                    <h4 class="footer-heading">Stay Updated</h4>
+                    <p>Subscribe to our newsletter for exclusive offers and updates</p>
+                    <form class="footer-form">
+                        <div class="form-group">
+                            <input type="email" placeholder="Your email address" required>
+                            <button type="submit" class="btn-submit">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 2L11 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
+            
             <div class="footer-bottom">
-                <p>&copy; 2023 Clasicraft. All rights reserved.</p>
+                <div class="footer-copyright">
+                    <p>&copy; 2023 Clasicraft. All rights reserved.</p>
+                </div>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- AOS Animation Script -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="animations.js"></script>
-    <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out',
-            once: true,
-            offset: 100
-        });
-
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('.header');
-            header.classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // Mobile menu toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const closeMenu = document.querySelector('.close-menu');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const overlay = document.querySelector('.overlay');
-
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-
-        closeMenu.addEventListener('click', closeMenuFunction);
-        overlay.addEventListener('click', closeMenuFunction);
-
-        function closeMenuFunction() {
-            mobileMenu.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
+    <style>
+        /* Footer Styles */
+        .footer {
+            background-color: var(--text-color);
+            color: var(--off-white);
+            padding: 80px 0 40px;
+            position: relative;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-brand .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .footer-tagline {
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            color: rgba(255,255,255,0.7);
+            max-width: 280px;
+            line-height: 1.6;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            color: var(--off-white);
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .footer-heading {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary-color);
+            transition: width 0.3s var(--ease-out-expo);
+        }
+        
+        .footer-links a:hover {
+            color: var(--off-white);
+        }
+        
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+        
+        .newsletter p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .form-group {
+            display: flex;
+            position: relative;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 50px 12px 15px;
+            border: none;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+            color: var(--off-white);
+            font-size: 0.95rem;
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .btn-submit {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--off-white);
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-copyright p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .footer-legal {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-legal a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        
+        .footer-legal a:hover {
+            color: var(--off-white);
         }
 
-        // Mobile menu links close menu when clicked
-        document.querySelectorAll('.mobile-link a').forEach(link => {
-            link.addEventListener('click', closeMenuFunction);
-        });
+        /* Responsive Footer */
+        @media (max-width: 992px) {
+            .footer-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .footer-brand, .newsletter {
+                grid-column: span 3;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .footer-brand, .newsletter {
+                grid-column: span 2;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-brand, .newsletter {
+                grid-column: span 1;
+            }
+            
+            .footer {
+                padding: 60px 0 30px;
+            }
+        }
+    </style>
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
+    <!-- Script Loading - Fixed Order -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.6.1/dist/simpleParallax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.0/dist/lenis.min.js"></script>
+    <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+    <script src="animations.js"></script>
 
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const headerOffset = 80;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Ensure all images load properly
+    <script>
+        // Initialize core functionality immediately
         document.addEventListener('DOMContentLoaded', function() {
-            // Add loaded class to all images that have loaded
-            document.querySelectorAll('img').forEach(img => {
-                if (img.complete) {
-                    img.classList.add('loaded');
+            // Header scroll effect
+            const header = document.querySelector('.header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
                 } else {
-                    img.addEventListener('load', function() {
-                        this.classList.add('loaded');
-                    });
-
-                    // If image fails to load, try data-src as fallback
-                    img.addEventListener('error', function() {
-                        if (this.dataset.src && this.src !== this.dataset.src) {
-                            this.src = this.dataset.src;
-                        }
-                    });
+                    header.classList.remove('scrolled');
                 }
-
-                // Force load after a short delay if not already loaded
-                setTimeout(() => {
-                    if (!img.classList.contains('loaded') && img.dataset.src) {
-                        img.src = img.dataset.src;
-                    }
-                }, 500);
             });
+            
+            // Initialize Smooth Scrolling
+            if (typeof Lenis === 'function') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    orientation: 'vertical',
+                    smoothWheel: true,
+                    wheelMultiplier: 1,
+                    touchMultiplier: 2,
+                });
 
-            // Initialize comparison slider
-            initComparisonSlider();
-        });
-
-        // Comparison slider functionality
-        function initComparisonSlider() {
-            const slider = document.querySelector('.comparison-slider');
-            if (!slider) return;
-
-            const before = slider.querySelector('.comparison-before');
-            const after = slider.querySelector('.comparison-after');
-            const handle = slider.querySelector('.comparison-handle');
-
-            // Set initial position
-            after.style.width = '50%';
-
-            let isDragging = false;
-
-            // Handle mouse events
-            handle.addEventListener('mousedown', startDrag);
-            slider.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', stopDrag);
-
-            // Touch events for mobile
-            handle.addEventListener('touchstart', startDrag);
-            slider.addEventListener('touchmove', drag);
-            document.addEventListener('touchend', stopDrag);
-
-            function startDrag(e) {
-                e.preventDefault();
-                isDragging = true;
-            }
-
-            function stopDrag() {
-                isDragging = false;
-            }
-
-            function drag(e) {
-                if (!isDragging) return;
-
-                let position;
-
-                if (e.type === 'touchmove') {
-                    position = e.touches[0].clientX - slider.getBoundingClientRect().left;
-                } else {
-                    position = e.clientX - slider.getBoundingClientRect().left;
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
                 }
-
-                // Convert to percentage
-                let percentage = (position / slider.offsetWidth) * 100;
-
-                // Limit between 0% and 100%
-                percentage = Math.max(0, Math.min(100, percentage));
-
-                // Update slider position
-                after.style.width = percentage + '%';
-                handle.style.left = percentage + '%';
+                
+                requestAnimationFrame(raf);
+                
+                // Scroll progress indicator
+                lenis.on('scroll', ({ scroll, limit }) => {
+                    const progress = scroll / limit;
+                    document.querySelector('.scroll-progress').style.width = `${progress * 100}%`;
+                });
+                
+                // Handle scroll-to links
+                document.querySelectorAll('[data-scroll-to]').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const target = link.getAttribute('href');
+                        lenis.scrollTo(target);
+                    });
+                });
             }
+            
+            // Initialize masonry grid layout
+            const masonryGrid = document.querySelector('.masonry-grid');
+            if (masonryGrid) {
+                // Apply masonry logic via JavaScript
+                const cards = masonryGrid.querySelectorAll('.product-card');
+                cards.forEach(card => {
+                    const img = card.querySelector('img');
+                    if (img.complete) {
+                        resizeGridItem(card);
+                    } else {
+                        img.addEventListener('load', () => {
+                            resizeGridItem(card);
+                        });
+                    }
+                });
+            }
+            
+            // Initialize tabs
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons and content
+                    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Mobile menu and other existing functionality
+            const menuToggle = document.getElementById('menuToggle');
+            const closeMenu = document.getElementById('closeMenu');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            
+            if (menuToggle && closeMenu && mobileMenu && overlay) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.add('active');
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+                
+                function closeMenuFunction() {
+                    mobileMenu.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                
+                closeMenu.addEventListener('click', closeMenuFunction);
+                overlay.addEventListener('click', closeMenuFunction);
+            }
+            
+            // Enhanced product card interaction
+            if (!('ontouchstart' in window)) {
+                document.querySelectorAll('.product-card').forEach(card => {
+                    card.addEventListener('mousemove', function(e) {
+                        const rect = this.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        const rotationY = ((x - centerX) / centerX) * 5;
+                        const rotationX = ((centerY - y) / centerY) * 5;
+                        
+                        this.style.setProperty('--rotation-x', `${rotationX}deg`);
+                        this.style.setProperty('--rotation-y', `${rotationY}deg`);
+                    });
+                    
+                    card.addEventListener('mouseleave', function() {
+                        this.style.setProperty('--rotation-x', '0deg');
+                        this.style.setProperty('--rotation-y', '0deg');
+                    });
+                });
+            }
+        });
+        
+        // Helper function for masonry layout
+        function resizeGridItem(item) {
+            const grid = document.querySelector('.masonry-grid');
+            const rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+            const rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
+            const itemHeight = item.getBoundingClientRect().height;
+            
+            const rowSpan = Math.ceil((itemHeight + rowGap) / (rowHeight + rowGap));
+            item.style.gridRowEnd = "span " + rowSpan;
         }
     </script>
 </body>

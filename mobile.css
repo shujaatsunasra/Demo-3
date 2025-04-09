@@ -1,0 +1,210 @@
+/**
+ * Mobile styles for Clasicraft
+ * Focuses on fixing mobile-specific issues and performance
+ */
+
+/* Base mobile adjustments */
+@media (max-width: 768px) {
+    body {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+    
+    .container {
+        padding: 0 15px;
+        width: 100%;
+    }
+    
+    h1, h2, .hero-title {
+        font-size: 2.5rem !important;
+    }
+    
+    .section {
+        padding: 60px 0;
+    }
+    
+    /* Fixed mobile header */
+    .header {
+        padding: 12px 0;
+    }
+    
+    .header-inner {
+        padding: 0;
+    }
+    
+    .logo {
+        font-size: 1.3rem;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .menu-toggle {
+        display: block !important;
+    }
+    
+    /* Fixed mobile hero */
+    .hero {
+        height: calc(100vh - 60px);
+    }
+    
+    .hero-content {
+        text-align: left;
+        padding-left: 0;
+    }
+    
+    .hero-title {
+        font-size: 2.8rem !important;
+    }
+    
+    /* Fixed product grid layout */
+    .staggered-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .staggered-grid > *:nth-child(even) {
+        margin-top: 0;
+    }
+    
+    /* Fixed about section */
+    .about .container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .about-content {
+        margin: 0 auto;
+        text-align: center;
+        order: 2;
+    }
+    
+    .about-img {
+        order: 1;
+        max-height: 300px;
+    }
+    
+    /* Fixed 3D viewer size */
+    .product-3d-container {
+        height: 50vh;
+        min-height: 300px;
+    }
+    
+    /* Fix section spacing */
+    .section-divider {
+        height: 80px;
+        margin: -40px 0;
+    }
+    
+    /* Fix button size */
+    .btn {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+    
+    /* Fix product card */
+    .product-card {
+        margin-bottom: 0;
+    }
+    
+    .product-info {
+        padding: 1.2rem;
+    }
+    
+    .product-title {
+        font-size: 1.3rem;
+    }
+    
+    .product-desc {
+        font-size: 0.9rem;
+    }
+}
+
+/* Small mobile adjustments */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.3rem !important;
+    }
+    
+    .section-title {
+        font-size: 2rem !important;
+    }
+    
+    .section {
+        padding: 50px 0;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .product-card {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    /* Minimize animations for better performance */
+    .product-img {
+        transition: none;
+    }
+    
+    .img-reveal::after {
+        transition-duration: 0.3s;
+    }
+}
+
+/* Fix for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    .hero {
+        height: -webkit-fill-available;
+    }
+    
+    .product-card {
+        transform: translateZ(0);
+    }
+    
+    .parallax-container {
+        -webkit-transform: translateZ(0);
+    }
+}
+
+/* Optimize touch interactions */
+.touch-device .hover-lift:hover {
+    transform: none !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
+}
+
+.touch-device .product-card:hover .product-img {
+    transform: scale(1.05) !important;
+}
+
+.touch-device .quick-view {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+/* Fix for browsers that don't support CSS Grid */
+@supports not (display: grid) {
+    .staggered-grid {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+    }
+    
+    .staggered-grid > * {
+        width: calc(33.333% - 30px);
+        margin: 0 15px 30px;
+    }
+    
+    @media (max-width: 992px) {
+        .staggered-grid > * {
+            width: calc(50% - 30px);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .staggered-grid > * {
+            width: 100%;
+        }
+    }
+}
