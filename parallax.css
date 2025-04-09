@@ -1,0 +1,214 @@
+/**
+ * Parallax and advanced visual effects for Clasicraft
+ */
+
+/* Basic parallax setup */
+.parallax-container {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%; /* Extra height for parallax effect */
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+/* Section transitions */
+.section-divider {
+    position: relative;
+    height: 100px;
+    margin-top: -50px;
+    z-index: 2;
+}
+
+.section-divider-curve {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--pure-white);
+    clip-path: ellipse(50% 50% at 50% 50%);
+}
+
+/* Image reveal effects */
+.img-reveal {
+    position: relative;
+    overflow: hidden;
+}
+
+.img-reveal::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    transform: translateX(-100%);
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+    z-index: 1;
+}
+
+.img-reveal.revealed::after {
+    transform: translateX(100%);
+}
+
+.img-reveal img {
+    opacity: 0;
+    transition: opacity 0.5s ease 0.5s;
+}
+
+.img-reveal.revealed img {
+    opacity: 1;
+}
+
+/* Text splitting for animation */
+.char-split {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.char-split span {
+    display: inline-block;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1),
+                opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.char-split.revealed span {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Hover effects */
+.hover-lift {
+    transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+.hover-shadow {
+    transition: box-shadow 0.3s ease;
+}
+
+.hover-shadow:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--pure-white);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.scroll-indicator:hover {
+    opacity: 1;
+}
+
+.scroll-indicator-text {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.scroll-indicator-arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    transform: rotate(45deg);
+    animation: scroll-indicator-arrow 2s infinite;
+}
+
+@keyframes scroll-indicator-arrow {
+    0% { transform: rotate(45deg) translate(0, 0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: rotate(45deg) translate(10px, 10px); opacity: 0; }
+}
+
+/* Staggered grid animations */
+.staggered-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.staggered-grid > * {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.staggered-grid > *.revealed {
+    animation: stagger-in 0.8s forwards cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+@keyframes stagger-in {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Text background highlight effect */
+.highlight-text {
+    position: relative;
+    display: inline;
+    z-index: 1;
+}
+
+.highlight-text::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 30%;
+    width: 0;
+    background-color: rgba(156, 124, 93, 0.2);
+    z-index: -1;
+    transition: width 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.highlight-text.revealed::after {
+    width: 100%;
+}
+
+/* Magnetic buttons */
+.magnetic-btn {
+    display: inline-block;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform-style: preserve-3d;
+}
+
+/* Image parallax */
+.img-parallax {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}

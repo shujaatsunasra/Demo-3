@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=5.0">
+    <title>Clasicraft | Artisanal Wooden Furniture</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="parallax.css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.6.1/dist/simpleParallax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #9c7c5d;
+            --secondary-color: #f7f3ef;
+            --text-color: #333333;
+            --light-text: #777777;
+            --off-white: #faf9f8;
+            --pure-white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            background-color: var(--pure-white);
+            font-weight: 300;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            background: #f5f3f0;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        img.loaded {
+            opacity: 1;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 4vw;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 36px;
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+        .btn:hover {
+            background: var(--primary-color);
+            color: var(--pure-white);
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--light-text);
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 25px 0;
+            background-color: transparent;
+            transition: all 0.4s ease;
+        }
+
+        .header.scrolled {
+            padding: 15px 0;
+            background-color: var(--pure-white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            color: var(--pure-white);
+            transition: color 0.3s ease;
+        }
+
+        .header.scrolled .logo {
+            color: var(--text-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-link {
+            color: var(--pure-white);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        .header.scrolled .nav-link {
+            color: var(--text-color);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .cart-icon, .menu-toggle {
+            color: var(--pure-white);
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .header.scrolled .cart-icon, 
+        .header.scrolled .menu-toggle {
+            color: var(--text-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            background: linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.1)), 
+                        url('https://images.unsplash.com/photo-1556185781-a47769abb7ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            color: var(--pure-white);
+        }
+
+        .hero-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 4vw;
+            max-width: 800px;
+        }
+
+        .hero-title {
+            font-size: 72px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        /* Featured Collection */
+        .featured {
+            background-color: var(--off-white);
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .featured-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .featured-img {
+            width: 100%;
+            height: 50vh;
+            min-height: 400px;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .featured-item:hover .featured-img {
+            transform: scale(1.05);
+        }
+
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .featured-item:hover .featured-overlay {
+            transform: translateY(0);
+        }
+
+        .featured-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .featured-price {
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        /* About Section */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-img {
+            height: 600px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .about-content {
+            padding-right: 40px;
+        }
+
+        .about-title {
+            font-size: 42px;
+            margin-bottom: 30px;
+        }
+
+        .about-text {
+            margin-bottom: 30px;
+            line-height: 1.8;
+            color: var(--light-text);
+        }
+
+        /* Product Showcase */
+        .showcase {
+            text-align: center;
+            background-color: var(--pure-white);
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+        }
+
+        .product-card {
+            text-align: left;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 400px;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .product-title {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .product-desc {
+            color: var(--light-text);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background-color: var(--secondary-color);
+            text-align: center;
+        }
+
+        .testimonial-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            margin: 0 auto 30px;
+        }
+
+        .testimonial-author {
+            font-weight: 400;
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .newsletter-subtitle {
+            color: var(--light-text);
+            margin-bottom: 30px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .newsletter-btn {
+            background-color: var(--text-color);
+            color: var(--pure-white);
+            border: none;
+            padding: 0 30px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .newsletter-privacy {
+            font-size: 12px;
+            color: var(--light-text);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--off-white);
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .footer-about {
+            color: var(--light-text);
+            margin-bottom: 20px;
+            max-width: 320px;
+        }
+
+        .footer-heading {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 10px;
+            color: var(--light-text);
+            font-size: 14px;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #eee;
+            color: var(--light-text);
+            font-size: 14px;
+        }
+
+        /* Mobile Styles */
+        .menu-toggle {
+            display: none;
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .section {
+                padding: 70px 0;
+            }
+
+            .section-title {
+                font-size: 36px;
+                margin-bottom: 40px;
+            }
+
+            .hero-title {
+                font-size: 58px;
+            }
+
+            .featured-grid, .showcase-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 50px 0;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 12vw;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .featured-grid, .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-img {
+                height: 400px;
+            }
+
+            .about-img {
+                height: 400px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        /* Comparison Slider Fix */
+        .comparison-slider {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            margin: 8rem 0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .comparison-before, .comparison-after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .comparison-after {
+            width: 50%; /* Initial width */
+        }
+
+        .comparison-before img, .comparison-after img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .comparison-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: col-resize;
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        /* Product showcase fixes */
+        .product-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 20px;
+        }
+
+        .product-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        /* 3D Product Viewer fix */
+        .product-3d-container {
+            position: relative;
+            margin: 8rem 0;
+            height: 500px;
+        }
+
+        /* Fix for staggered grid */
+        .staggered-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Fix for featured items overflow */
+        .featured-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* Button content fixes */
+        .btn-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Fix for scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            cursor: pointer;
+        }
+
+        .scroll-indicator-text {
+            margin-bottom: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .scroll-indicator-arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 2px solid white;
+            border-bottom: 2px solid white;
+            transform: rotate(45deg);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: rotate(45deg) translateY(0);
+            }
+            40% {
+                transform: rotate(45deg) translateY(-10px);
+            }
+            60% {
+                transform: rotate(45deg) translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="#" class="logo">Clasicraft</a>
+                <ul class="nav-links">
+                    <li><a href="#shop" class="nav-link">Shop</a></li>
+                    <li><a href="#about" class="nav-link">Our Story</a></li>
+                    <li><a href="#journal" class="nav-link">Journal</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="header-right">
+                    <span class="cart-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z" fill="currentColor"/>
+                            <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z" fill="currentColor"/>
+                            <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <span class="menu-toggle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 12H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 6H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 18H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="overlay"></div>
+    <div class="mobile-menu">
+        <span class="close-menu">&times;</span>
+        <ul class="mobile-links">
+            <li class="mobile-link"><a href="#shop">Shop</a></li>
+            <li class="mobile-link"><a href="#about">Our Story</a></li>
+            <li class="mobile-link"><a href="#journal">Journal</a></li>
+            <li class="mobile-link"><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero parallax-container">
+        <div class="parallax-bg"></div>
+        <div class="hero-video-container">
+            <!-- Video will be added by JavaScript -->
+        </div>
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
+                <h1 class="hero-title highlight-text">Artisanal Wooden Masterpieces</h1>
+                <p class="hero-subtitle char-split">Handcrafted furniture that combines timeless design with exceptional quality for your modern home.</p>
+                <a href="#shop" class="btn magnetic-btn"><span class="btn-content">Explore Collection</span></a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span class="scroll-indicator-text">Scroll Down</span>
+            <span class="scroll-indicator-arrow"></span>
+        </div>
+    </section>
+
+    <!-- Featured Collection -->
+    <section class="section featured" id="shop">
+        <div class="container">
+            <p class="section-subtitle highlight-text" data-aos="fade-up">Featured Products</p>
+            <h2 class="section-title highlight-text" data-aos="fade-up" data-aos-delay="100">Best Sellers</h2>
+            <div class="featured-grid staggered-grid">
+                <div class="featured-item hover-parallax-container" data-aos="fade-up" data-aos-delay="200">
+                    <div class="parallax-wrapper aspect-ratio-box">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Dining Table" class="featured-img img-parallax hover-parallax-item">
+                    </div>
+                    <div class="featured-overlay">
+                        <h3 class="featured-title">Modern Dining Table</h3>
+                        <p class="featured-price">₹36,999</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
+                    </div>
+                </div>
+                <div class="featured-item hover-parallax-container" data-aos="fade-up" data-aos-delay="300">
+                    <div class="parallax-wrapper aspect-ratio-box">
+                        <img src="https://images.unsplash.com/photo-1550226891-ef816aed4a98?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Chair" class="featured-img img-parallax hover-parallax-item">
+                    </div>
+                    <div class="featured-overlay">
+                        <h3 class="featured-title">Minimalist Lounge Chair</h3>
+                        <p class="featured-price">₹18,499</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
+                    </div>
+                </div>
+                <div class="featured-item hover-parallax-container" data-aos="fade-up" data-aos-delay="400">
+                    <div class="parallax-wrapper aspect-ratio-box">
+                        <img src="https://images.unsplash.com/photo-1581428982868-e410dd047a90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Cabinet" class="featured-img img-parallax hover-parallax-item">
+                    </div>
+                    <div class="featured-overlay">
+                        <h3 class="featured-title">Accent Cabinet</h3>
+                        <p class="featured-price">₹42,999</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="about">
+                <div class="about-content" data-aos="fade-right">
+                    <p class="section-subtitle">Our Story</p>
+                    <h2 class="about-title">Crafted with passion, designed for living</h2>
+                    <p class="about-text">Clasicraft was born from a deep appreciation of natural materials and traditional craftsmanship. Each piece in our collection is thoughtfully designed and meticulously crafted by skilled artisans using sustainable hardwoods sourced from responsibly managed forests.</p>
+                    <p class="about-text">We believe furniture should be both beautiful and functional, creating pieces that become more meaningful with time and use. Our designs combine traditional joinery techniques with contemporary aesthetics, resulting in heirloom-quality furniture that tells a story.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+                <div class="about-image-container" data-aos="fade-left" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1575286368486-a9bd023a3d1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Craftsman working on wooden furniture" class="about-img img-parallax">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Showcase -->
+    <section class="section showcase">
+        <div class="container">
+            <p class="section-subtitle highlight-text" data-aos="fade-up">Curated Selection</p>
+            <h2 class="section-title highlight-text" data-aos="fade-up" data-aos-delay="100">Discover Our Collection</h2>
+            <div class="showcase-grid">
+                <div class="product-card product-showcase" data-aos="fade-up" data-aos-delay="200">
+                    <div class="aspect-ratio-box">
+                        <div class="depth-card">
+                            <div class="depth-card-inner">
+                                <div class="depth-card-front">
+                                    <img data-src="https://images.unsplash.com/photo-1592078615290-033ee584e267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dining Table" class="product-img">
+                                </div>
+                                <div class="depth-card-back">
+                                    <div class="product-details">
+                                        <h3 class="product-title">Artisan Dining Table</h3>
+                                        <p class="product-price">₹48,999</p>
+                                        <p>Handcrafted with a focus on durability and timeless design</p>
+                                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card product-showcase" data-aos="fade-up" data-aos-delay="300">
+                    <div class="aspect-ratio-box">
+                        <div class="depth-card">
+                            <div class="depth-card-inner">
+                                <div class="depth-card-front">
+                                    <img data-src="https://images.unsplash.com/photo-1580480055273-228ff5388ef8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Bench" class="product-img">
+                                </div>
+                                <div class="depth-card-back">
+                                    <div class="product-details">
+                                        <h3 class="product-title">Minimalist Bench</h3>
+                                        <p class="product-price">₹16,499</p>
+                                        <p>Clean lines and honest materials define this versatile wooden bench</p>
+                                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card product-showcase" data-aos="fade-up" data-aos-delay="400">
+                    <div class="aspect-ratio-box">
+                        <div class="depth-card">
+                            <div class="depth-card-inner">
+                                <div class="depth-card-front">
+                                    <img data-src="https://images.unsplash.com/photo-1560448204-444f743ef6e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Coffee Table" class="product-img">
+                                </div>
+                                <div class="depth-card-back">
+                                    <div class="product-details">
+                                        <h3 class="product-title">Live Edge Coffee Table</h3>
+                                        <p class="product-price">₹32,999</p>
+                                        <p>Natural live edge slab showcasing the wood's unique character and grain</p>
+                                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Details</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials">
+        <div class="container">
+            <p class="section-subtitle" data-aos="fade-up">What Our Clients Say</p>
+            <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Testimonials</h2>
+            <div data-aos="fade-up" data-aos-delay="200">
+                <p class="testimonial-quote">"The craftsmanship of my dining table is exceptional. Every detail shows care and attention. It's not just a piece of furniture; it's the heart of our home where we gather and create memories."</p>
+                <p class="testimonial-author">— Priya Sharma, Bangalore</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="section">
+        <div class="container">
+            <div class="newsletter" data-aos="fade-up">
+                <p class="section-subtitle">Stay Connected</p>
+                <h2 class="newsletter-title">Join Our Community</h2>
+                <p class="newsletter-subtitle">Subscribe to receive updates on new collections, artisan stories, and exclusive offers.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" class="newsletter-input" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+                <p class="newsletter-privacy">By subscribing, you agree to our Privacy Policy. You can unsubscribe at any time.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 class="footer-logo">Clasicraft</h3>
+                    <p class="footer-about">Handcrafted wooden furniture that combines artisanal techniques with timeless design for the modern home.</p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Shop</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#">All Products</a></li>
+                        <li class="footer-link"><a href="#">Dining</a></li>
+                        <li class="footer-link"><a href="#">Living</a></li>
+                        <li class="footer-link"><a href="#">Bedroom</a></li>
+                        <li class="footer-link"><a href="#">Accessories</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading">About</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#">Our Story</a></li>
+                        <li class="footer-link"><a href="#">Craftsmanship</a></li>
+                        <li class="footer-link"><a href="#">Sustainability</a></li>
+                        <li class="footer-link"><a href="#">Journal</a></li>
+                        <li class="footer-link"><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Help</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#">Contact Us</a></li>
+                        <li class="footer-link"><a href="#">Shipping & Returns</a></li>
+                        <li class="footer-link"><a href="#">FAQ</a></li>
+                        <li class="footer-link"><a href="#">Care Guide</a></li>
+                        <li class="footer-link"><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Clasicraft. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Animation Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="animations.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out',
+            once: true,
+            offset: 100
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const closeMenu = document.querySelector('.close-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const overlay = document.querySelector('.overlay');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMenu.addEventListener('click', closeMenuFunction);
+        overlay.addEventListener('click', closeMenuFunction);
+
+        function closeMenuFunction() {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Mobile menu links close menu when clicked
+        document.querySelectorAll('.mobile-link a').forEach(link => {
+            link.addEventListener('click', closeMenuFunction);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Ensure all images load properly
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loaded class to all images that have loaded
+            document.querySelectorAll('img').forEach(img => {
+                if (img.complete) {
+                    img.classList.add('loaded');
+                } else {
+                    img.addEventListener('load', function() {
+                        this.classList.add('loaded');
+                    });
+
+                    // If image fails to load, try data-src as fallback
+                    img.addEventListener('error', function() {
+                        if (this.dataset.src && this.src !== this.dataset.src) {
+                            this.src = this.dataset.src;
+                        }
+                    });
+                }
+
+                // Force load after a short delay if not already loaded
+                setTimeout(() => {
+                    if (!img.classList.contains('loaded') && img.dataset.src) {
+                        img.src = img.dataset.src;
+                    }
+                }, 500);
+            });
+
+            // Initialize comparison slider
+            initComparisonSlider();
+        });
+
+        // Comparison slider functionality
+        function initComparisonSlider() {
+            const slider = document.querySelector('.comparison-slider');
+            if (!slider) return;
+
+            const before = slider.querySelector('.comparison-before');
+            const after = slider.querySelector('.comparison-after');
+            const handle = slider.querySelector('.comparison-handle');
+
+            // Set initial position
+            after.style.width = '50%';
+
+            let isDragging = false;
+
+            // Handle mouse events
+            handle.addEventListener('mousedown', startDrag);
+            slider.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+
+            // Touch events for mobile
+            handle.addEventListener('touchstart', startDrag);
+            slider.addEventListener('touchmove', drag);
+            document.addEventListener('touchend', stopDrag);
+
+            function startDrag(e) {
+                e.preventDefault();
+                isDragging = true;
+            }
+
+            function stopDrag() {
+                isDragging = false;
+            }
+
+            function drag(e) {
+                if (!isDragging) return;
+
+                let position;
+
+                if (e.type === 'touchmove') {
+                    position = e.touches[0].clientX - slider.getBoundingClientRect().left;
+                } else {
+                    position = e.clientX - slider.getBoundingClientRect().left;
+                }
+
+                // Convert to percentage
+                let percentage = (position / slider.offsetWidth) * 100;
+
+                // Limit between 0% and 100%
+                percentage = Math.max(0, Math.min(100, percentage));
+
+                // Update slider position
+                after.style.width = percentage + '%';
+                handle.style.left = percentage + '%';
+            }
+        }
+    </script>
+</body>
+</html>
