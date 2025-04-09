@@ -74,7 +74,7 @@
             margin-top: 0;
         }
 
-        /* Enhanced Header Styles */
+        /* Fixed Header */
         .header {
             position: fixed;
             top: 0;
@@ -83,17 +83,10 @@
             z-index: 100;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            background: linear-gradient(to right, rgba(255,255,255,0.92), rgba(248,246,242,0.92));
+            background: rgba(255,255,255,0.86);
             border-bottom: 1px solid rgba(0,0,0,0.05);
             padding: 15px 0;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 5px 25px rgba(0,0,0,0.025);
-        }
-
-        .header.scrolled {
-            padding: 12px 0;
-            background: linear-gradient(to right, rgba(255,255,255,0.96), rgba(248,246,242,0.96));
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: background 0.3s, transform 0.3s;
         }
 
         .header-inner {
@@ -109,27 +102,6 @@
             font-size: 1.5rem;
             color: var(--text-color);
             text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -15px;
-            transform: translateY(-50%);
-            width: 8px;
-            height: 8px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .logo:hover::before {
-            opacity: 1;
-            left: -10px;
         }
 
         .nav-links {
@@ -148,64 +120,28 @@
             text-decoration: none;
             font-size: 0.95rem;
             position: relative;
-            padding: 5px 0;
-            transition: all 0.3s;
-            overflow: hidden;
+            transition: color 0.3s;
         }
 
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -4px;
             left: 0;
-            width: 100%;
+            width: 0;
             height: 1px;
-            background: var(--primary-color);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.4s var(--ease-out-expo);
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color);
+            background: currentColor;
+            transition: width 0.3s var(--ease-out-expo);
         }
 
         .nav-link:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
+            width: 100%;
         }
 
         .header-right {
             display: flex;
             align-items: center;
             gap: 20px;
-        }
-
-        .cart-icon, .menu-toggle {
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .cart-icon:hover, .menu-toggle:hover {
-            transform: scale(1.1);
-            color: var(--primary-color);
-        }
-
-        .cart-icon::after {
-            content: '0';
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            width: 16px;
-            height: 16px;
-            background: var(--primary-color);
-            color: white;
-            font-size: 0.7rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         /* Fixed Mobile Menu */
@@ -224,7 +160,7 @@
             }
         }
 
-        /* Enhanced Hero Section Styles */
+        /* Fixed Hero Section */
         .hero {
             height: 100vh;
             position: relative;
@@ -245,35 +181,11 @@
             left: 0;
         }
 
-        .wood-grain-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
-            opacity: 0.2;
-            z-index: 1;
-            mix-blend-mode: overlay;
-        }
-
         .hero-video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: brightness(0.85) contrast(1.1);
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(58, 51, 46, 0.5), transparent 70%),
-                         linear-gradient(to bottom, transparent 70%, rgba(58, 51, 46, 0.6));
-            z-index: 1;
+            filter: brightness(0.85);
         }
 
         .hero-content {
@@ -281,8 +193,6 @@
             z-index: 2;
             color: var(--pure-white);
             max-width: 600px;
-            padding-left: 20px;
-            border-left: 3px solid var(--primary-color);
         }
 
         .hero-title {
@@ -290,86 +200,475 @@
             line-height: 0.9;
             margin-bottom: 2rem;
             text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Fixed Section Divider */
+        .section-divider {
+            height: 120px;
+            margin: -60px 0;
+            background: var(--secondary-color);
             position: relative;
-        }
-
-        .hero-title::before {
-            content: "";
-            position: absolute;
-            top: -5%;
-            left: -25px;
-            width: 60px;
-            height: 60px;
-            border-top: 2px solid var(--primary-color);
-            border-left: 2px solid var(--primary-color);
-            opacity: 0.8;
-        }
-
-        .hero-title::after {
-            content: "";
-            position: absolute;
-            bottom: -15%;
-            right: 30%;
-            width: 60px;
-            height: 60px;
-            border-bottom: 2px solid var(--clay);
-            border-right: 2px solid var(--clay);
-            opacity: 0.8;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             z-index: 5;
-            color: var(--pure-white);
         }
 
-        .scroll-indicator-text {
-            font-size: 0.8rem;
+        .section-divider-curve {
+            clip-path: url(#wavePath);
+            -webkit-clip-path: url(#wavePath);
+        }
+
+        /* Fix Featured Section */
+        .featured {
+            background-color: var(--secondary-color);
+            padding: 100px 0 80px;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--primary-color);
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 10px;
-            opacity: 0.8;
+            margin-bottom: 0.5rem;
         }
 
-        .scroll-indicator-arrow {
-            width: 30px;
-            height: 50px;
-            border: 2px solid rgba(255,255,255,0.5);
+        /* Fixed Product Grid */
+        .staggered-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        /* Fix Product Cards */
+        .product-card {
+            position: relative;
+            background: var(--pure-white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.6s var(--ease-out-back),
+                        box-shadow 0.4s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px 8px 0 0;
+            aspect-ratio: 4/3;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-out-expo);
+            transform: scale(1.05);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            background: var(--pure-white);
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .product-price {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .product-desc {
+            color: var(--light-text);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Fixed Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 28px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: #8a6c4d;
+            transform: translateY(-2px);
+        }
+
+        /* Category Layouts */
+        .category-heading {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Horizontal Scroll Layout */
+        .horizontal-scroll {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 25px;
+            padding: 20px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--secondary-color);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar-track {
+            background: var(--secondary-color);
+            border-radius: 20px;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 20px;
+        }
+
+        .horizontal-scroll .product-card {
+            min-width: 280px;
+            scroll-snap-align: start;
+        }
+
+        /* Masonry Layout */
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-auto-rows: 10px;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        /* Improved Suggested Products Layout */
+        .suggested-products {
+            padding: 40px 0;
+        }
+
+        .list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .list-item-card {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            background: var(--pure-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            transition: transform 0.6s var(--ease-out-back),
+                        box-shadow 0.4s ease;
+        }
+
+        .list-item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .list-image-container {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+        }
+
+        .list-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s var(--ease-out-expo);
+        }
+
+        .list-item-card:hover .list-image-container img {
+            transform: scale(1.05);
+        }
+
+        .list-info {
+            padding: 2rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+
+        .list-title {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .list-title::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.5s var(--ease-out-expo);
+        }
+
+        .list-item-card:hover .list-title::after {
+            width: 100%;
+        }
+
+        .list-price {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        .list-tag {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: #E74C3C;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transform: rotate(3deg);
+        }
+
+        .list-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .list-feature {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: var(--light-text);
+            background: var(--off-white);
+            padding: 4px 10px;
             border-radius: 15px;
+        }
+
+        /* Enhanced Category Tabs */
+        .tab-navigation {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            background: var(--secondary-color);
+            padding: 10px;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--light-text);
+            border-radius: 8px;
             position: relative;
         }
 
-        .scroll-indicator-arrow::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
-            background: white;
-            border-radius: 50%;
-            animation: scrollDown 2s infinite;
+        .tab-button.active {
+            color: white;
+            background: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(156, 124, 93, 0.3);
         }
 
-        @keyframes scrollDown {
-            0% {
-                top: 8px;
-                opacity: 1;
-            }
-            80% {
-                opacity: 0.5;
-            }
-            100% {
-                top: 32px;
-                opacity: 0;
-            }
+        .tab-button:not(.active):hover {
+            background: rgba(255,255,255,0.5);
+            color: var(--text-color);
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .category-card {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.5s var(--ease-out-back),
+                        box-shadow 0.4s ease;
+            background: var(--pure-white);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .category-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .category-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s var(--ease-out-expo);
+        }
+
+        .category-card:hover .category-image img {
+            transform: scale(1.05);
+        }
+
+        .category-detail {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .category-price {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .category-desc {
+            color: var(--light-text);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            color: var(--light-text);
+        }
+
+        .category-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stars {
+            color: #FFC107;
+        }
+
+        .category-card .btn {
+            margin-top: auto;
+        }
+
+        .tab-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .tab-description {
+            max-width: 600px;
+            color: var(--light-text);
+            font-size: 1.05rem;
+        }
+
+        .tab-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .tab-control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--pure-white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .tab-control-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -608,6 +907,75 @@
     <!-- Fixed Section Divider -->
     <div class="section-divider section-divider-curve"></div>
     
+    <!-- Featured Collections - Masonry Layout with Enhanced Cards -->
+    <section class="section" style="background-color: var(--off-white);" data-scroll-section>
+        <div class="container">
+            <div class="category-heading">
+                <p class="section-subtitle highlight-text" data-scroll>Curated Selections</p>
+                <h2 class="section-title highlight-text" data-scroll>Featured Collections</h2>
+            </div>
+
+            <div class="masonry-grid">
+                <div class="collection-card" data-scroll style="grid-row-end: span 36;">
+                    <div class="collection-image-container img-reveal">
+                        <span class="collection-badge">Premium</span>
+                        <img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Dining Set" class="product-img">
+                    </div>
+                    <div class="collection-info">
+                        <span class="collection-item-count">6 Items</span>
+                        <h3 class="collection-title">Complete Dining Set</h3>
+                        <p class="collection-price">₹86,999</p>
+                        <p class="collection-desc">Table and six chairs crafted as a harmonious collection. Elegant design with premium finish and dovetail joinery.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Collection</span></a>
+                    </div>
+                </div>
+
+                <div class="collection-card" data-scroll style="grid-row-end: span 32;">
+                    <div class="collection-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Desk" class="product-img">
+                    </div>
+                    <div class="collection-info">
+                        <span class="collection-item-count">4 Items</span>
+                        <h3 class="collection-title">Office Collection</h3>
+                        <p class="collection-price">₹58,499</p>
+                        <p class="collection-desc">Complete workspace solution with matching pieces and integrated organization features.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Collection</span></a>
+                    </div>
+                </div>
+
+                <div class="collection-card" data-scroll style="grid-row-end: span 40;">
+                    <div class="collection-image-container img-reveal">
+                        <span class="collection-badge">Featured</span>
+                        <img src="https://images.unsplash.com/photo-1551298370-9d3d53740c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wooden Bedroom Set" class="product-img">
+                    </div>
+                    <div class="collection-info">
+                        <span class="collection-item-count">5 Items</span>
+                        <h3 class="collection-title">Bedroom Ensemble</h3>
+                        <p class="collection-price">₹124,999</p>
+                        <p class="collection-desc">Complete bedroom furniture set with coordinated aesthetics. Includes bed frame, nightstands, and storage pieces.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Collection</span></a>
+                    </div>
+                </div>
+
+                <div class="collection-card" data-scroll style="grid-row-end: span 34;">
+                    <div class="collection-image-container img-reveal">
+                        <img src="https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Living Room Collection" class="product-img">
+                    </div>
+                    <div class="collection-info">
+                        <span class="collection-item-count">3 Items</span>
+                        <h3 class="collection-title">Living Room Set</h3>
+                        <p class="collection-price">₹94,999</p>
+                        <p class="collection-desc">Coordinated tables and storage for cohesive living spaces with integrated lighting elements.</p>
+                        <a href="#" class="btn magnetic-btn"><span class="btn-content">View Collection</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fixed Section Divider -->
+    <div class="section-divider section-divider-curve"></div>
+
     <!-- Personalized Recommendations - List View Layout -->
     <section class="section suggested-products" style="background-color: var(--secondary-color);" data-scroll-section>
         <div class="container">
@@ -1133,16 +1501,6 @@
     <script>
         // Initialize core functionality immediately
         document.addEventListener('DOMContentLoaded', function() {
-            // Header scroll effect
-            const header = document.querySelector('.header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-            
             // Initialize Smooth Scrolling
             if (typeof Lenis === 'function') {
                 const lenis = new Lenis({
